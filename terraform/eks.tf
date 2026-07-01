@@ -6,6 +6,7 @@ module "eks" {
   kubernetes_version = "1.35"
 
   endpoint_public_access = true
+  enable_cluster_creator_admin_permissions = true 
 
   addons = {
     coredns = {
