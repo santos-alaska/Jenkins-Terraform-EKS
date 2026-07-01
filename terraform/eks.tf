@@ -2,7 +2,9 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  name                   = local.name
+  name               = local.name
+  kubernetes_version = "1.35"
+
   endpoint_public_access = true
 
   addons = {
@@ -13,16 +15,15 @@ module "eks" {
       most_recent = true
     }
     vpc-cni = {
-      most_recent   = true
+      most_recent    = true
       before_compute = true
     }
   }
 
   vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
-  control_plane_subnet_ids = module.vpc.intra_subnets
+  subnet_ids                = module.vpc.private_subnets
+  control_plane_subnet_ids  = module.vpc.intra_subnets
 
-  # EKS Managed Node Group(s)
   eks_managed_node_groups = {
     cluster-wg = {
       ami_type                               = "AL2023_x86_64_STANDARD"
